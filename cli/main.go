@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/go-toast/toast"
+	"github.com/epy0n0ff/toast"
 	"gopkg.in/urfave/cli.v1"
 )
 
