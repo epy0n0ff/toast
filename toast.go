@@ -345,12 +345,14 @@ func invokeTemporaryScript(content string) error {
 	id, _ := uuid.NewV4()
 	file := filepath.Join(os.TempDir(), id.String()+".ps1")
 	defer os.Remove(file)
+
 	bomUtf8 := []byte{0xEF, 0xBB, 0xBF}
 	out := append(bomUtf8, []byte(content)...)
 	err := os.WriteFile(file, out, 0600)
 	if err != nil {
 		return err
 	}
+
 	cmd := exec.Command("PowerShell", "-ExecutionPolicy", "Bypass", "-File", file)
 	cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
 	if err = cmd.Run(); err != nil {
