@@ -1,17 +1,18 @@
+//go:build windows
+
 package toast
 
 import (
 	"bytes"
 	"errors"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"syscall"
 	"text/template"
 
 	"github.com/nu7hatch/gouuid"
-	"syscall"
 )
 
 var toastTemplate *template.Template
@@ -346,7 +347,7 @@ func invokeTemporaryScript(content string) error {
 	defer os.Remove(file)
 	bomUtf8 := []byte{0xEF, 0xBB, 0xBF}
 	out := append(bomUtf8, []byte(content)...)
-	err := ioutil.WriteFile(file, out, 0600)
+	err := os.WriteFile(file, out, 0600)
 	if err != nil {
 		return err
 	}
